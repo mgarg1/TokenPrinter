@@ -1,10 +1,6 @@
 # https://www.electronicwings.com/sensors-modules/mt8870-dtmf-decoder
-# https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
 # python -m virualenv proj/ --no-download -p python3
-# sudo apt-get install libjpeg-dev zlib1g-dev
-# pip install python-escpos --no-cache-dir
-# sudo apt-get install python3-rpi.gpio
-# https://python-escpos.readthedocs.io/en/latest/user/raspi.html
+# python-escpos version which I am using:
 
 import RPi.GPIO as GPIO
 import time
@@ -111,23 +107,3 @@ def mainLoop():
         GPIO.cleanup()
 
 mainLoop()
-# def my_callback(arg1):
-#   print int(str(GPIO.input(Q4))+str(GPIO.input(Q3))+str(GPIO.input(Q2))+str(GPIO.input(Q1)),2)
-
-# GPIO.output(25, GPIO.input(4))
-# int('11111111', 2)
-# GPIO.add_event_detect(SDT, GPIO.RISING)
-# GPIO.add_event_callback(SDT, my_callback)
-# GPIO.add_event_detect(22, GPIO.RISING, callback=my_call)
-# GPIO.add_event_detect(SDT, GPIO.RISING)
-# GPIO.wait_for_edge(SDT, GPIO.RISING)
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setup(4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-# GPIO.setup(25, GPIO.OUT, initial=GPIO.LOW)
-# GPIO.add_event_detect(SDT, GPIO.FALLING)
-# GPIO.add_event_detect(4, GPIO.BOTH)
-# GPIO.add_event_callback(4, my_callback)
-# GPIO.add_event_detect(channel, GPIO.RISING, callback=my_callback) 
-
-# while True:
-    # pass
