@@ -8,9 +8,10 @@ sudo apt-get install python3-rpi.gpio
 pip install requirements.txt
 ```
 ## References
-* Stable version(2.20) which I am using:
-** https://github.com/python-escpos/python-escpos/tree/cbe38648f50dd42e25563bd8603953eaa13cb7f6
-* Docs for this version:
-** https://python-escpos.readthedocs.io/en/v2.2.0/
-* GPIO Docs:
-** https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
+* Stable version(2.20) which I am using - https://github.com/python-escpos/python-escpos/tree/cbe38648f50dd42e25563bd8603953eaa13cb7f6
+* Docs for this version - https://python-escpos.readthedocs.io/en/v2.2.0/
+* GPIO Docs - https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
+* https://www.programiz.com/python-programming/datetime/strftime
+
+## Pi Zero Pin Diagram
+![Pi Zero Pin Diagram](https://pi4j.com/1.2/images/j8header-zero.png)
