@@ -12,9 +12,9 @@ import usb.core
 # import usb.util
 
 
-SW1 = 8
-LED_READY = 10
-LED_ERROR = 12
+SW1 = 40
+LED_READY = 2
+LED_ERROR = 3
 
 TOKEN_START = 12
 TOKEN_DELTA = 2
@@ -60,6 +60,7 @@ def setupPrinter():
     while True:
         try:
             printerObj = Usb(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
+            printerObj = Dummy(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
             # printerObj = Usb(0x0456, 0x0808, 0, 0x81, 0x03)
             print('printer found continuing')
             return printerObj
@@ -72,7 +73,7 @@ def setupPrinter():
 
 def printDate(printerObj):
     now = datetime.now() # current date and time
-    now_time = now.strftime("%d-%b-%Y         %H:%M:%S")
+    now_time = now.strftime("%d-%b-%Y       %H:%M:%S")
     printerObj.set(height=1, width=1)
     printerObj.text(now_time)
     printerObj.control("CR")
