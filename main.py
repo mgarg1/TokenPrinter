@@ -7,14 +7,14 @@ import time
 from escpos.printer import Usb
 import escpos.exceptions
 from datetime import datetime
-from PIL import Image, ImageDraw
+# from PIL import Image, ImageDraw
 import usb.core
 # import usb.util
-
+from textToImage import textToImage 
 
 SW1 = 40
-LED_READY = 2
-LED_ERROR = 3
+LED_READY = 15
+LED_ERROR = 13
 
 TOKEN_START = 12
 TOKEN_DELTA = 2
@@ -60,7 +60,7 @@ def setupPrinter():
     while True:
         try:
             printerObj = Usb(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
-            printerObj = Dummy(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
+            # printerObj = Dummy(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
             # printerObj = Usb(0x0456, 0x0808, 0, 0x81, 0x03)
             print('printer found continuing')
             return printerObj
@@ -71,29 +71,14 @@ def setupPrinter():
             time.sleep(2)
             continue
 
-def printDate(printerObj):
-    now = datetime.now() # current date and time
-    now_time = now.strftime("%d-%b-%Y       %H:%M:%S")
-    printerObj.set(height=1, width=1)
-    printerObj.text(now_time)
-    printerObj.control("CR")
-
 def printToken(printerObj,tokenCount):
     printerObj.hw("INIT")
     printerObj.control("LF")
-    printDate(printerObj)
     
-    printerObj.image("static/sleet3.png",impl="bitImageColumn")
-    printerObj.set(width=3,align='center')
-    printerObj.text(tokenCount)
-    printerObj.text("\n\n")
-    printerObj.image("static/footer.png",impl="bitImageColumn")
-    # TODO : not sure if it needs to be here
-    # printerObj.set(font='a', height=1, width=1, align='center')
-    printerObj.text("\n\n\n\n")
-    # printerObj.print_and_feed(n=1)
-    printerObj.hw("INIT")
-    # printerObj.cut()
+    now = datetime.now() # current date and time
+    imgObj = textToImage(tokenNum=tokenCount,dateVal=now.strftime('%d-%b-%Y'),timeVal=now.strftime('%H:%M:%S'))
+    printerObj.image(imgObj,impl="bitImageColumn")
+    printerObj.cut()
 
 def setupGPIO():
     GPIO.setmode(GPIO.BOARD)
@@ -138,5 +123,3 @@ def mainLoop():
             return
 
 mainLoop()
-
-      
