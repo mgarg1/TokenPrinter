@@ -20,7 +20,7 @@ TOKEN_START = 12
 TOKEN_DELTA = 2
 LAST_TOKEN_FILENAME = "lastToken.txt"
 LAST_DATE_FILENAME = "lastDate.txt"
-
+DATE_FORMAT = "%d-%b-%Y"
 
 def setupFiles(filename):
     fileh = open(filename, 'a')
@@ -29,28 +29,57 @@ def setupFiles(filename):
     finally:
         fileh.close()
 
-def getNextTokenNumber():
-    with open(LAST_DATE_FILENAME,'r+',encoding = 'utf-8') as dateFile:
-        lastDay = dateFile.read().strip()
-        now = datetime.now() # current date and time
-        now_day = now.strftime("%d-%b-%Y").strip()
+def readFile(filename):
+    fileContent=None
+    with open(filename,'r',encoding = 'utf-8') as fileh:
+        fileContent = fileh.read().strip()
 
-        lastToken = TOKEN_START
-        with open(LAST_TOKEN_FILENAME,'r+',encoding = 'utf-8') as tokenFile:
-            # print(now_day)
-            # print(lastDay)
-            if lastDay == now_day:
-                # print("day hasn't changed")
-                lastToken = tokenFile.read()
-                lastToken = int(lastToken) + TOKEN_DELTA
-            
-            tokenFile.truncate(0)
-            tokenFile.seek(0)
-            tokenFile.write(str(lastToken))
-        dateFile.truncate(0)
-        dateFile.seek(0)
-        dateFile.write(now_day)
-        return lastToken
+    return fileContent
+
+def writeFile(filename,fileContent):
+    # filemode is 'w' -> if exist then truncate, otherwise create
+     with open(filename,'w',encoding = 'utf-8') as fileh:
+        fileh.write(fileContent)
+
+def updateFiles(tokenNum,lastDay=datetime.now().strftime(DATE_FORMAT).strip()):
+    writeFile(LAST_TOKEN_FILENAME,tokenNum)
+    writeFile(LAST_DATE_FILENAME,lastDay)
+
+
+def getNextTokenNumber2():
+    lastDay = readFile(LAST_DATE_FILENAME)
+    lastToken = readFile(LAST_TOKEN_FILENAME)
+
+    curr_day = datetime.now().strftime(DATE_FORMAT).strip()
+    if lastDay == curr_day:
+        curr_Token = int(lastToken) + TOKEN_DELTA
+    else:
+        curr_Token = TOKEN_START
+
+    return lastToken
+
+# def getNextTokenNumber():
+#     with open(LAST_DATE_FILENAME,'r+',encoding = 'utf-8') as dateFile:
+#         lastDay = dateFile.read().strip()
+#         now = datetime.now() # current date and time
+#         now_day = now.strftime(DATE_FORMAT).strip()
+# 
+#         lastToken = TOKEN_START
+#         with open(LAST_TOKEN_FILENAME,'r+',encoding = 'utf-8') as tokenFile:
+#             # print(now_day)
+#             # print(lastDay)
+#             if lastDay == now_day:
+#                 # print("day hasn't changed")
+#                 lastToken = tokenFile.read()
+#                 lastToken = int(lastToken) + TOKEN_DELTA
+#             
+#             tokenFile.truncate(0)
+#             tokenFile.seek(0)
+#             tokenFile.write(str(lastToken))
+#         dateFile.truncate(0)
+#         dateFile.seek(0)
+#         dateFile.write(now_day)
+#         return lastToken
 
 def setupPrinter():
 
@@ -113,7 +142,9 @@ def mainLoop():
                 # TODO : implement this check
                 # if printerObj.is_online() and printerObj.paper_status():
                 if True:
-                    printToken(printerObj,str(getNextTokenNumber()))
+                    tokenNum = getNextTokenNumber()
+                    printToken(printerObj,str(tokenNum))
+                    updateFiles(str(tokenNum))
                     print("Button was pushed!")
                     time.sleep(5)
 
