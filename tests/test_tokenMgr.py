@@ -1,11 +1,9 @@
-import sys
-sys.path.insert(0, '../')
-import os
+import context
 
 from datetime import datetime,timedelta
 from tokenMgr import getNextTokenNumber,writeToken,DATE_FORMAT,TOKEN_START,TOKEN_DELTA
 from tokenMgr import LAST_TOKEN_FILENAME, LAST_DATE_FILENAME
-
+import os
 
 def cleanup():
     os.remove(LAST_TOKEN_FILENAME)

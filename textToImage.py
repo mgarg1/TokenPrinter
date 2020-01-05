@@ -4,7 +4,11 @@
 from PIL import Image, ImageDraw, ImageFont
 from os import path
 
-FONT_LOCATION = path.join('./','static','fonts')
+import os
+import sys
+
+FONT_LOCATION = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static', 'fonts'))
+# FONT_LOCATION = path.join('./','static','fonts')
 
 def textToImage(tokenNum,dateVal='32-Dec-0019',timeVal='25:25:61',outFile=None):
     
@@ -35,6 +39,3 @@ def textToImage(tokenNum,dateVal='32-Dec-0019',timeVal='25:25:61',outFile=None):
         img.save(outFile)
 
     return img
-
-
-textToImage(23,outFile='f1.png')
