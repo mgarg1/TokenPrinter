@@ -18,6 +18,7 @@ pip install requirements.txt
 * GPIO Docs - https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
 * https://www.programiz.com/python-programming/datetime/strftime
 * https://github.com/PyramidTechnologies/Phoenix-ESC-POS
+* Backup using Win32 Disk Imager https://www.howtogeek.com/341944/how-to-clone-your-raspberry-pi-sd-card-for-foolproof-backup/
 
 ### Espson references
 https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=118#dle_eot
