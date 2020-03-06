@@ -15,4 +15,4 @@ def compareImageWithBaseline():
         assert c1 == c2, 'generated file doesn\'t match static baseline'
     os.remove(outFile)
 
-printImage()
+compareImageWithBaseline()
