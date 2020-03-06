@@ -1,6 +1,5 @@
 # https://www.electronicwings.com/sensors-modules/mt8870-dtmf-decoder
 # python -m virualenv proj/ --no-download -p python3
-# python-escpos version which I am using:
 
 import RPi.GPIO as GPIO
 import time
@@ -65,8 +64,8 @@ def mainLoop():
                 setupGPIO()
                 printerObj = setupPrinter()
                 setupRequired = False
+                setErrorLEDs(0)
 
-            setErrorLEDs(0)
             # time.sleep(5)
             if GPIO.input(SW1) == GPIO.HIGH:
                 setErrorLEDs(1)
@@ -78,6 +77,7 @@ def mainLoop():
                     writeToken(tokenNum)
                     print("Button was pushed!")
                     time.sleep(5)
+                    setErrorLEDs(0)
 
         except KeyboardInterrupt:
             # Exit on Ctrl-c
@@ -85,19 +85,12 @@ def mainLoop():
             printerObj.close()
             return
 
-        except escpos.exceptions.USBNotFoundError as errorMsg:
+        except (escpos.exceptions.USBNotFoundError,escpos.exceptions.Error) as errorMsg:
             setErrorLEDs(1)
+            print('escpos recognized error')
             print(errorMsg)
-            print('printer not found - trying again')
             setupRequired = True
             time.sleep(2)
-            continue
-
-        except escpos.exceptions.Error as errorMsg:
-            setErrorLEDs(1)
-            print(errorMsg)
-            print('escpos recognized error')
-            continue
-
+            # continue
 
 mainLoop()
