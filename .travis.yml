@@ -5,5 +5,5 @@ cache: pip
 install:
   - pip install -r requirements.txt
 script:
-  - python tests/tests.py
+  - python tests/test_textToImage.py
   # - py.test --cov-report term-missing --cov app -v

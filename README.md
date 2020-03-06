@@ -1,8 +1,6 @@
 # TokenPrinter
 
-[![build status](
-  http://img.shields.io/travis/mgarg1/TokenPrinter/master.svg?style=flat)](
- https://travis-ci.org/mgarg1/TokenPrinter
+[![build status](http://img.shields.io/travis/mgarg1/TokenPrinter/master.svg?style=flat)](https://travis-ci.org/mgarg1/TokenPrinter)
 
 # Getting the sd card ready
 * downloaded the buster lite image from [raspian website](https://www.raspberrypi.org/downloads/raspbian/)
