@@ -22,18 +22,12 @@ def setupPrinter():
     # find our device
     # while usb.core.find(idVendor=0x0456, idProduct=0x0808) is None:
         # pass
-    while True:
-        try:
-            printerObj = Usb(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
-            # printerObj = Dummy(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
-            print('printer found continuing')
-            return printerObj
-            # printerObj.panel_buttons(enable=False)
-        # return printerObj
-        except escpos.exceptions.USBNotFoundError as errorMsg:
-            print(errorMsg)
-            time.sleep(2)
-            continue
+    printerObj = Usb(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
+    # printerObj = Dummy(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
+    print('printer found continuing')
+    return printerObj
+    # printerObj.panel_buttons(enable=False)
+    # return printerObj
 
 def printToken(printerObj,tokenCount):
     printerObj.hw("INIT")
@@ -63,11 +57,15 @@ def setErrorLEDs(errorState=1):
 
 
 def mainLoop():
-    setupGPIO()
-    printerObj = setupPrinter()
+    setupRequired = True
   
     while True: # Run forever
         try:
+            if setupRequired:
+                setupGPIO()
+                printerObj = setupPrinter()
+                setupRequired = False
+
             setErrorLEDs(0)
             # time.sleep(5)
             if GPIO.input(SW1) == GPIO.HIGH:
@@ -82,8 +80,24 @@ def mainLoop():
                     time.sleep(5)
 
         except KeyboardInterrupt:
+            # Exit on Ctrl-c
             GPIO.cleanup()
             printerObj.close()
             return
+
+        except escpos.exceptions.USBNotFoundError as errorMsg:
+            setErrorLEDs(1)
+            print(errorMsg)
+            print('printer not found - trying again')
+            setupRequired = True
+            time.sleep(2)
+            continue
+
+        except escpos.exceptions.Error as errorMsg:
+            setErrorLEDs(1)
+            print(errorMsg)
+            print('escpos recognized error')
+            continue
+
 
 mainLoop()
