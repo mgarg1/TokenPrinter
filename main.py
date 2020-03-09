@@ -54,7 +54,6 @@ def setErrorLEDs(errorState=1):
         GPIO.output(LED_READY, GPIO.HIGH)
         GPIO.output(LED_ERROR, GPIO.LOW)
 
-
 def mainLoop():
     setupRequired = True
   
@@ -87,6 +86,8 @@ def mainLoop():
 
         except (escpos.exceptions.USBNotFoundError,escpos.exceptions.Error) as errorMsg:
             setErrorLEDs(1)
+            printerObj.close()
+            
             print('escpos recognized error')
             print(errorMsg)
             setupRequired = True
