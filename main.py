@@ -56,7 +56,7 @@ def setErrorLEDs(errorState=1):
 
 def mainLoop():
     setupRequired = True
-  
+    printerObj = None  
     while True: # Run forever
         try:
             if setupRequired:
@@ -81,12 +81,14 @@ def mainLoop():
         except KeyboardInterrupt:
             # Exit on Ctrl-c
             GPIO.cleanup()
-            printerObj.close()
+            if printerObj:
+                printerObj.close()
             return
 
         except (escpos.exceptions.USBNotFoundError,escpos.exceptions.Error) as errorMsg:
             setErrorLEDs(1)
-            printerObj.close()
+            if printerObj:
+                printerObj.close()
             
             print('escpos recognized error')
             print(errorMsg)
