@@ -12,6 +12,13 @@ from datetime import datetime
 from textToImage import textToImage
 from tokenMgr import getNextTokenNumber,writeToken 
 
+import logging,sys
+logger = logging.getLogger()
+log_handler = logging.StreamHandler(sys.stdout)
+log_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s - %(funcName)s - line %(lineno)d"))
+log_handler.setLevel(logging.DEBUG)
+logger.addHandler(log_handler)
+
 SW1 = 40
 LED_READY = 15
 LED_ERROR = 13
@@ -23,7 +30,7 @@ def setupPrinter():
         # pass
     printerObj = Usb(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
     # printerObj = Dummy(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
-    print('printer found continuing')
+    logger.info('printer found continuing')
     return printerObj
     # printerObj.panel_buttons(enable=False)
     # return printerObj
@@ -74,7 +81,7 @@ def mainLoop():
                     tokenNum = getNextTokenNumber()
                     printToken(printerObj,str(tokenNum))
                     writeToken(tokenNum)
-                    print("Button was pushed!")
+                    logging.info("Button was pushed!")
                     time.sleep(5)
                     setErrorLEDs(0)
 
@@ -90,10 +97,11 @@ def mainLoop():
             if printerObj:
                 printerObj.close()
             
-            print('escpos recognized error')
-            print(errorMsg)
+            logging.warning("escpos recognized error")
+            logging.warning(str(errorMsg))
             setupRequired = True
             time.sleep(2)
             # continue
 
 mainLoop()
+
