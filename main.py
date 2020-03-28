@@ -1,6 +1,12 @@
 # https://www.electronicwings.com/sensors-modules/mt8870-dtmf-decoder
 # python -m virualenv proj/ --no-download -p python3
 
+import logging
+logging.basicConfig(
+        format='%(asctime)s - %(levelname)s - %(message)s - %(funcName)s - line %(lineno)d',
+        level=logging.DEBUG)
+logging.disable(logging.CRITICAL)
+
 import RPi.GPIO as GPIO
 import time
 from escpos.printer import Usb
@@ -12,25 +18,24 @@ from datetime import datetime
 from textToImage import textToImage
 from tokenMgr import getNextTokenNumber,writeToken 
 
-import logging,sys
-logger = logging.getLogger()
-log_handler = logging.StreamHandler(sys.stdout)
-log_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s - %(funcName)s - line %(lineno)d"))
-log_handler.setLevel(logging.DEBUG)
-logger.addHandler(log_handler)
+#logger = logging.getLogger()
+#log_handler = logging.StreamHandler(sys.stdout)
+#log_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s - %(funcName)s - line %(lineno)d"))
+#log_handler.setLevel(logging.INFO)
+#logger.addHandler(log_handler)
+#logging.disable(logging.NOTSET)
 
-SW1 = 40
-LED_READY = 15
+SW1 = 10
+LED_READY = 8
 LED_ERROR = 13
 
 def setupPrinter():
-
     # find our device
     # while usb.core.find(idVendor=0x0456, idProduct=0x0808) is None:
         # pass
     printerObj = Usb(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
     # printerObj = Dummy(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
-    logger.info('printer found continuing')
+    logging.debug("printer found continuing")
     return printerObj
     # printerObj.panel_buttons(enable=False)
     # return printerObj
@@ -81,7 +86,7 @@ def mainLoop():
                     tokenNum = getNextTokenNumber()
                     printToken(printerObj,str(tokenNum))
                     writeToken(tokenNum)
-                    logging.info("Button was pushed!")
+                    logging.debug("Button was pushed!")
                     time.sleep(5)
                     setErrorLEDs(0)
 
@@ -102,6 +107,7 @@ def mainLoop():
             setupRequired = True
             time.sleep(2)
             # continue
+        except Exception as errorMsg:
+            logging.warning(str(errorMsg))
 
 mainLoop()
-
