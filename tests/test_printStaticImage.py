@@ -16,12 +16,19 @@ def printImage(printerObj):
     tokenCount = 23
     now = datetime.now() # current date and time
     imgObj = textToImage.textToImage(tokenNum=tokenCount,dateVal=now.strftime('%d-%b-%Y'),timeVal=now.strftime('%H:%M:%S'))
-    printerObj.image(imgObj,impl="bitImageColumn")
+    printerObj.image(imgObj)
+            #impl="bitImageColumn")
     # printerObj.text("\n\n")
     printerObj.cut()
 
 def mainLoop():
-    printerObj = setupPrinter()
-    printImage(printerObj)
+    printerObj = None
+    try:
+        printerObj = setupPrinter()
+        printImage(printerObj)
+    except Exception as e:
+        if printerObj:
+            printerObj.close()
+        print(str(e))
 
 mainLoop() 
