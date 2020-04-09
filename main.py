@@ -23,7 +23,7 @@ from tokenMgr import getNextTokenNumber,writeToken
 #log_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s - %(funcName)s - line %(lineno)d"))
 #log_handler.setLevel(logging.INFO)
 #logger.addHandler(log_handler)
-#logging.disable(logging.NOTSET)
+logging.disable(logging.NOTSET)
 
 SW1 = 16
 

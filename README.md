@@ -96,6 +96,13 @@ sudo apt-get install python3-rpi.gpio
 
 pip install requirements.txt
 ```
+# Install virtualenv 
+```bash
+sudo apt-get install python3-virtualenv
+```
+# Read Only Raspi
+![Read Only Filesystem](https://learn.adafruit.com/read-only-raspberry-pi)
+
 
 ## Pi Zero Pin Diagram
 ![Pi Zero Pin Diagram](https://pi4j.com/1.2/images/j8header-zero.png)
