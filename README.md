@@ -104,9 +104,8 @@ sudo apt-get install python3-virtualenv
 ![Read Only Filesystem](https://learn.adafruit.com/read-only-raspberry-pi)
 
 
-## Pi Zero Pin Diagram
-![Pi Zero Pin Diagram](https://pi4j.com/1.2/images/j8header-zero.png)
-
+## Circuit Diagram
+![Circuit Diagram](static/Circuit_Diagram.png)
 
 ## References
 * Stable version(2.20) which I am using - https://github.com/python-escpos/python-escpos/tree/cbe38648f50dd42e25563bd8603953eaa13cb7f6
