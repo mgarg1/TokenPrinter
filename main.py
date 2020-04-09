@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(
         format='%(asctime)s - %(levelname)s - %(message)s - %(funcName)s - line %(lineno)d',
         level=logging.DEBUG)
-#logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 
 import RPi.GPIO as GPIO
 import time
@@ -16,14 +16,14 @@ from datetime import datetime
 # import usb.core
 # import usb.util
 from textToImage import textToImage
-from tokenMgr import getNextTokenNumber,writeToken 
+from tokenMgr2 import getNextTokenNumber,writeToken 
 
 #logger = logging.getLogger()
 #log_handler = logging.StreamHandler(sys.stdout)
 #log_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s - %(funcName)s - line %(lineno)d"))
 #log_handler.setLevel(logging.INFO)
 #logger.addHandler(log_handler)
-logging.disable(logging.NOTSET)
+#logging.disable(logging.NOTSET)
 
 SW1 = 16
 
@@ -47,8 +47,8 @@ def setupPrinter():
     # while usb.core.find(idVendor=0x0456, idProduct=0x0808) is None:
         # pass
 
-    printerObj = File('/dev/usb/lp0')
-    #printerObj = Usb(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
+    #printerObj = File('/dev/usb/lp0')
+    printerObj = Usb(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
     # printerObj = Dummy(idVendor=0x0456, idProduct=0x0808, timeout=0, in_ep=0x81, out_ep=0x03)
     logging.debug("printer found continuing")
     return printerObj
