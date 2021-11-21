@@ -100,7 +100,7 @@ sudo apt-get install python3-rpi.gpio
 pip install requirements.txt
 ```
 # Read Only Raspi
-![Read Only Filesystem](https://learn.adafruit.com/read-only-raspberry-pi)
+Read Only Filesystem : https://learn.adafruit.com/read-only-raspberry-pi
 
 # Scheduling restart
 * In `/etc/rc.local`
@@ -108,9 +108,10 @@ pip install requirements.txt
 sudo bash -c 'source /home/pi/TokenPrinter/venv_token/bin/activate && python3 /home/pi/TokenPrinter/main.py' &
 
 ```
-~~ * In `crontab -e` type:
-@reboot source /home/pi/TokenPrinter/venv_token/bin/activate && python3 /home/pi/TokenPrinter/main.py ~~
-
+<!---
+* In `crontab -e` type:
+@reboot source /home/pi/TokenPrinter/venv_token/bin/activate && python3 /home/pi/TokenPrinter/main.py
+-->
 ## Circuit Diagram
 ![Circuit Diagram](static/Circuit_Diagram.png)
 
